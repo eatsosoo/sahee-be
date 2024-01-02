@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
@@ -16,9 +17,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
+
+Route::post('login',[UserController::class,'loginUser']);
+
+
+Route::group(['middleware' => 'auth:sanctum'],function(){
+    Route::get('user',[UserController::class,'userDetails']);
+    Route::get('logout',[UserController::class,'logout']);
+});
 
 Route::group(['prefix' => 'posts', 'middleware' => []], function () {
     Route::get('/', [PostController::class, 'search']);
@@ -27,7 +37,7 @@ Route::group(['prefix' => 'posts', 'middleware' => []], function () {
     Route::put('/', [PostController::class, 'update']);
 });
 
-Route::group(['prefix' => 'comments', 'middleware' => []], function () {
+Route::group(['prefix' => 'comments', 'middleware' => ['']], function () {
     Route::get('/', [CommentController::class, 'search']);
     Route::delete('/{id}', [CommentController::class, 'delete']);
     Route::post('/', [CommentController::class, 'create']);
