@@ -16,12 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
-Route::prefix('posts')->group(function () {
+Route::group(['prefix' => 'posts', 'middleware' => []], function () {
     Route::get('/', [PostController::class, 'search']);
+    Route::delete('/{id}', [PostController::class, 'delete']);
+    Route::post('/', [PostController::class, 'create']);
+    Route::put('/', [PostController::class, 'update']);
 });
 
 Route::group(['prefix' => 'comments', 'middleware' => []], function () {
