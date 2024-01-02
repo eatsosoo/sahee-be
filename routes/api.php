@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +18,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::prefix('posts')->group(function () {
+    Route::get('/', [PostController::class, 'search']);
+});
+
+Route::group(['prefix' => 'comments', 'middleware' => []], function () {
+    Route::get('/', [CommentController::class, 'search']);
+    Route::delete('/{id}', [CommentController::class, 'delete']);
+    Route::post('/', [CommentController::class, 'create']);
+    Route::put('/', [CommentController::class, 'update']);
 });
