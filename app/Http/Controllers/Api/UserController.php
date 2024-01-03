@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\Responses\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-
 
 class UserController extends Controller
 {
@@ -21,21 +21,21 @@ class UserController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-   
-        if($validator->fails()){
-            return Response(['message' => $validator->errors()],401);
-        }
-   
-        if(Auth::attempt($request->all())){
 
-            $user = Auth::user(); 
-    
-            $success =  $user->createToken('MyApp')->plainTextToken; 
-        
-            return Response(['token' => $success],200);
+        if ($validator->fails()) {
+            return ApiResponse::v1()->withStatusCode(401)->report(false, $validator->errors());
         }
 
-        return Response(['message' => 'email or password wrong'],401);
+        if (Auth::attempt($request->all())) {
+
+            $user = Auth::user();
+
+            $success = $user->createToken('MyApp')->plainTextToken;
+            return ApiResponse::v1()->report(true, $success, 'token');
+        }
+
+
+        return ApiResponse::v1()->withStatusCode(400)->report(false, 'email or password wrong');
     }
 
     /**
@@ -47,10 +47,10 @@ class UserController extends Controller
 
             $user = Auth::user();
 
-            return Response(['data' => $user],200);
+            return Response(['data' => $user], 200);
         }
 
-        return Response(['data' => 'Unauthorized'],401);
+        return Response(['data' => 'Unauthorized'], 401);
     }
 
     /**
@@ -61,7 +61,7 @@ class UserController extends Controller
         $user = Auth::user();
 
         $user->currentAccessToken()->delete();
-        
-        return Response(['data' => 'User Logout successfully.'],200);
+
+        return ApiResponse::v1()->report(true, 'User Logout successfully.');
     }
 }
