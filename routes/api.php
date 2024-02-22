@@ -37,7 +37,7 @@ Route::group(['prefix' => 'posts', 'middleware' => []], function () {
     Route::put('/', [PostController::class, 'update']);
 });
 
-Route::group(['prefix' => 'comments', 'middleware' => ['']], function () {
+Route::group(['prefix' => 'comments', 'middleware' => []], function () {
     Route::get('/', [CommentController::class, 'search']);
     Route::delete('/{id}', [CommentController::class, 'delete']);
     Route::post('/', [CommentController::class, 'create']);
