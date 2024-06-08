@@ -24,7 +24,7 @@ class StoreCommentRequest extends FormRequest
         $rules = [
             'content' => ['required'],
             'user_id' => ['required'],
-            'post_id' => ['required'],
+            'book_id' => ['required'],
         ];
 
         return $rules;
@@ -41,7 +41,7 @@ class StoreCommentRequest extends FormRequest
         $input = $this->only(
             'content',
             'user_id',
-            'post_id',
+            'book_id',
             'parent_id',
         );
 

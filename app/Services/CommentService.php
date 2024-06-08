@@ -34,9 +34,9 @@ class CommentService extends BaseService
         try {
             $query = $this->commentRepo->search();
 
-            if (isset($rawConditions['post_id'])) {
-                $param = CommonHelper::escapeLikeQueryParameter($rawConditions['post_id']);
-                $query = $this->commentRepo->queryOnAField(['post_id', $param]);
+            if (isset($rawConditions['book_id'])) {
+                $param = CommonHelper::escapeLikeQueryParameter($rawConditions['book_id']);
+                $query = $this->commentRepo->queryOnAField(['book_id', $param]);
             }
 
             if (isset($rawConditions['sort'])) {

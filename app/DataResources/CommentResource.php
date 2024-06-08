@@ -26,7 +26,7 @@ class CommentResource extends BaseDataResource
     /**
      * @var int
      */
-    public $post_id;
+    public $book_id;
 
     /**
      * @var string
@@ -60,7 +60,7 @@ class CommentResource extends BaseDataResource
         'id',
         'content',
         'user_id',
-        'post_id',
+        'book_id',
         'parent_id',
         'user_name',
         'user_avatar_url',

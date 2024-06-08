@@ -3,9 +3,9 @@
 namespace App\DataResources;
 
 use App\Helpers\Common\CommonHelper;
-use App\Models\Post;
+use App\Models\Book;
 
-class PostResource extends BaseDataResource
+class BookResource extends BaseDataResource
 {
 
     /**
@@ -64,7 +64,7 @@ class PostResource extends BaseDataResource
 
     public function modelClass(): string
     {
-        return Post::class;
+        return Book::class;
     }
 
     /**
@@ -72,11 +72,10 @@ class PostResource extends BaseDataResource
      */
     protected array $fields = [
         'id',
-        'title',
-        'content',
+        'name',
         'user_id',
-        'likes',
-        'views',
+        'price',
+        'stock',
         'comments',
         'comment_total',
         'user_name',

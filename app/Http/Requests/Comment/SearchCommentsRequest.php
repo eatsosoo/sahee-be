@@ -37,7 +37,7 @@ class SearchCommentsRequest extends BaseFormRequest
     {
         parent::prepareForValidation();
         $input = $this->only(
-            'post_id',
+            'book_id',
             'pagination',
             'sort',
         );

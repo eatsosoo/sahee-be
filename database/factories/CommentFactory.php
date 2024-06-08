@@ -20,7 +20,7 @@ class CommentFactory extends Factory
             'user_id' => rand(1, 10),
             'content' => fake()->text(50),
             'parent_id' => rand(1, 10),
-            'post_id' => rand(1, 10),
+            'book_id' => rand(1, 10),
         ];
     }
 }

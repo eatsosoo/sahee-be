@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Models\Post;
+use App\Models\Book;
 
-class PostRepository extends BaseRepository
+class BookRepository extends BaseRepository
 {
     /**
      * get corresponding model class name
@@ -13,17 +13,17 @@ class PostRepository extends BaseRepository
      */
     public function getRepositoryModelClass(): string
     {
-        return Post::class;
+        return Book::class;
     }
 
     /**
-     * get posts list
+     * get books list
      *
      * @param array<mixed> $condition
-     * @return Post[]
+     * @return Book[]
      */
-    public function getPosts($condition = [])
+    public function getBooks($condition = [])
     {
-        return Post::with(['user', 'comments'])->get();
+        return Book::with(['user', 'comments'])->get();
     }
 }

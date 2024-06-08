@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Post;
+namespace App\Http\Requests\Book;
 
 use App\Http\Requests\BaseFormRequest;
 
-class SearchPostsRequest extends BaseFormRequest
+class SearchBooksRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

@@ -17,7 +17,7 @@ class CommentRepository extends BaseRepository
     }
 
     /**
-     * get posts list
+     * get books list
      *
      * @param array<mixed> $condition
      * @return Comment[]

@@ -3,55 +3,55 @@
 namespace App\Http\Controllers;
 
 use App\DataResources\BaseDataResource;
-use App\DataResources\PostResource;
+use App\DataResources\BookResource;
 use App\Helpers\Responses\ApiResponse;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Post\SearchPostsRequest;
-use App\Services\PostService;
+use App\Http\Requests\Book\SearchBooksRequest;
+use App\Services\BookService;
 
-class PostController extends Controller
+class BookController extends Controller
 {
-    /** @var PostService */
-    protected PostService $postService;
+    /** @var BookService */
+    protected BookService $bookService;
 
-    public function __construct(PostService $postService)
+    public function __construct(BookService $bookService)
     {
-        $this->postService = $postService;
+        $this->bookService = $bookService;
     }
 
     /**
-     * search posts
+     * search books
      *
-     * @param SearchPostsRequest $request
+     * @param SearchBooksRequest $request
      * @return Response
      * @throws ActionFailException
      * @throws InvalidPaginationInfoException
      */
-    public function search(SearchPostsRequest $request)
+    public function search(SearchBooksRequest $request)
     {
         // 1. get validated payload
-        $postData = $request->input();
+        $bookData = $request->input();
 
         // 2. get pagination if any
         $paging = null;
-        if (isset($postData['pagination'])) {
+        if (isset($bookData['pagination'])) {
             $paging = $request->getPaginationInfo();
         }
 
         // 3. Call business processes
-        $postList = $this->postService->searchPosts($postData, $paging);
+        $bookList = $this->bookService->searchBooks($bookData, $paging);
 
         // 4. Convert result to output resource
-        $result = BaseDataResource::generateResources($postList, PostResource::class);
+        $result = BaseDataResource::generateResources($bookList, BookResource::class);
 
         // 5. Send response using the predefined format
         if (is_null($paging)) {
             return ApiResponse::v1()
-                ->send($result, 'posts');
+                ->send($result, 'books');
         } else {
             return ApiResponse::v1()
                 ->withTotalPages($paging->last_page, $paging->total)
-                ->send($result, 'posts');
+                ->send($result, 'books');
         }
     }
 }

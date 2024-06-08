@@ -16,7 +16,7 @@ class Comment extends BaseModel
     protected $fillable = [
         'content',
         'user_id',
-        'post_id',
+        'book_id',
         'parent_id',
     ];
 

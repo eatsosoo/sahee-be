@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->text('content');
             $table->integer('parent_id')->nullable();
-            $table->unsignedBigInteger('post_id');
+            $table->unsignedBigInteger('book_id');
             $table->timestamps();
 
             $table->foreign('user_id')
@@ -24,9 +24,9 @@ return new class extends Migration
                 ->on('users')
                 ->onDelete('cascade');
 
-            $table->foreign('post_id')
+            $table->foreign('book_id')
                 ->references('id')
-                ->on('posts')
+                ->on('books')
                 ->onDelete('cascade');
         });
     }

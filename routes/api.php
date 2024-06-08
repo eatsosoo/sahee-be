@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\BookController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,10 +31,10 @@ Route::group(['middleware' => 'auth:sanctum'],function(){
 });
 
 Route::group(['prefix' => 'posts', 'middleware' => []], function () {
-    Route::get('/', [PostController::class, 'search']);
-    Route::delete('/{id}', [PostController::class, 'delete']);
-    Route::post('/', [PostController::class, 'create']);
-    Route::put('/', [PostController::class, 'update']);
+    Route::get('/', [BookController::class, 'search']);
+    Route::delete('/{id}', [BookController::class, 'delete']);
+    Route::post('/', [BookController::class, 'create']);
+    Route::put('/', [BookController::class, 'update']);
 });
 
 Route::group(['prefix' => 'comments', 'middleware' => []], function () {
