@@ -14,12 +14,20 @@ class Book extends BaseModel
      * @var array<int, string>
      */
     protected $fillable = [
-        'title',
-        'content',
+        'name',
+        'price',
+        'stock',
+        'book_cover_url',
         'user_id',
+        'category_id',
     ];
 
     public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function category()
     {
         return $this->belongsTo(User::class);
     }

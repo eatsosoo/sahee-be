@@ -40,7 +40,7 @@ class CommentService extends BaseService
             }
 
             if (isset($rawConditions['sort'])) {
-                $query = $query->orderBy($rawConditions['sort']['field'], $rawConditions['sort']['order']);
+                $query = $query->orderBy($rawConditions['sort']['key'], $rawConditions['sort']['order']);
             }
 
             if (!is_null($paging)) {

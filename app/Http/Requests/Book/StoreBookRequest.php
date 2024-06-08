@@ -11,7 +11,7 @@ class StoreBookRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,35 @@ class StoreBookRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
+        $rules = [
+            'name' => ['required'],
+            'book_cover_url' => ['required'],
+            'price' => ['required'],
+            'stock' => ['required'],
+            'user_id' => ['required'],
+            'category_id' => ['required'],
         ];
+
+        return $rules;
+    }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        parent::prepareForValidation();
+        $input = $this->only(
+            'name',
+            'book_cover_url',
+            'price',
+            'stock',
+            'user_id',
+            'category_id',
+        );
+
+        $this->replace($input);
     }
 }

@@ -7,6 +7,7 @@ use App\DataResources\BookResource;
 use App\Helpers\Responses\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Book\SearchBooksRequest;
+use App\Http\Requests\Book\StoreBookRequest;
 use App\Services\BookService;
 
 class BookController extends Controller
@@ -53,5 +54,34 @@ class BookController extends Controller
                 ->withTotalPages($paging->last_page, $paging->total)
                 ->send($result, 'books');
         }
+    }
+
+    /**
+     * create book
+     *
+     * @param StoreBookRequest $request
+     * @return Response
+     * @throws ActionFailException
+     */
+    public function create(StoreBookRequest $request)
+    {
+        $commentCreated = $this->bookService->create($request->all());
+        $result = new BookResource($commentCreated);
+
+        return ApiResponse::v1()->send($result, dataKey: 'comment');
+    }
+
+    /**
+     * delete book
+     *
+     * @param Request $request
+     * @return Response
+     * @throws ActionFailException
+     */
+    public function delete($requestId)
+    {
+        $result = $this->bookService->delete($requestId);
+        $message = __('message.delete_success');
+        return ApiResponse::v1()->report($result, $message);
     }
 }

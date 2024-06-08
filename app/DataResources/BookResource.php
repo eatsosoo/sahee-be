@@ -50,6 +50,16 @@ class BookResource extends BaseDataResource
     /**
      * @var string
      */
+    public $category_id;
+
+    /**
+     * @var string
+     */
+    public $category_name;
+
+    /**
+     * @var string
+     */
     public $tag_name;
 
     /**
@@ -81,6 +91,8 @@ class BookResource extends BaseDataResource
         'user_name',
         'user_avatar_url',
         'user',
+        'category_id',
+        'category_name',
         'created_at',
         'updated_at',
     ];
@@ -93,6 +105,8 @@ class BookResource extends BaseDataResource
 
         $this->user_name = $object->user->name;
         $this->user_avatar_url = $object->user->avatar_url;
+
+        $this->category_name = $object->category->name;
 
         $this->tag_name = '@' . strtolower($this->user_name);
 
