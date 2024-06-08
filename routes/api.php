@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,7 +31,7 @@ Route::group(['middleware' => 'auth:sanctum'],function(){
     Route::get('logout',[UserController::class,'logout']);
 });
 
-Route::group(['prefix' => 'posts', 'middleware' => []], function () {
+Route::group(['prefix' => 'books', 'middleware' => []], function () {
     Route::get('/', [BookController::class, 'search']);
     Route::delete('/{id}', [BookController::class, 'delete']);
     Route::post('/', [BookController::class, 'create']);
@@ -42,4 +43,8 @@ Route::group(['prefix' => 'comments', 'middleware' => []], function () {
     Route::delete('/{id}', [CommentController::class, 'delete']);
     Route::post('/', [CommentController::class, 'create']);
     Route::put('/', [CommentController::class, 'update']);
+});
+
+Route::group(['prefix' => 'categories', 'middleware' => []], function () {
+    Route::get('/', [CategoryController::class, 'search']);
 });

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('parent_id')->nullable();
             $table->unsignedBigInteger('book_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')
                 ->references('id')
