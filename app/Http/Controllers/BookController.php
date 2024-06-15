@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Book\SearchBooksRequest;
 use App\Http\Requests\Book\StoreBookRequest;
 use App\Services\BookService;
+use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
@@ -72,6 +73,30 @@ class BookController extends Controller
     }
 
     /**
+     * update book
+     *
+     * @param StoreBookRequest $request
+     * @return Response
+     * @throws ActionFailException
+     * @throws InvalidModelInstanceException
+     */
+    public function update(StoreBookRequest $request)
+    {
+        // 1. get validated payload
+        $bookData = $request->all();
+
+        // 2. Call business processes
+        $mailBlock = $this->bookService->update($bookData);
+        $message = __('message.edit_success');
+
+        // 3. Convert result to output resource
+        $result = new BookResource($mailBlock);
+
+        // 4. Send response using the predefined format
+        return ApiResponse::v1()->withMessage($message)->send($result, 'book');
+    }
+
+    /**
      * delete book
      *
      * @param Request $request
@@ -83,5 +108,28 @@ class BookController extends Controller
         $result = $this->bookService->delete($requestId);
         $message = __('message.delete_success');
         return ApiResponse::v1()->report($result, $message);
+    }
+
+    /**
+     * detail book
+     *
+     * @param Request $request
+     * @return Response
+     * @throws ActionFailException
+     * @throws InvalidModelInstanceException
+     */
+    public function getBook(Request $request)
+    {
+        // 1. Get book template id
+        $bookId = $request->id;
+
+        // 2. Call business processes
+        $book = $this->bookService->getBook($bookId);
+
+        // 3. Convert result to output resource
+        $result = new BookResource($book);
+
+        // 4. Send response using the predefined format
+        return ApiResponse::v1()->send($result, 'book');
     }
 }

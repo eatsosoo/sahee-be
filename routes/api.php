@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
@@ -21,18 +22,20 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('/register', [UserController::class, 'register']);
 
 
-Route::post('login',[UserController::class,'loginUser']);
-
+Route::post('/auth/login', [AuthController::class, 'login']);
+Route::middleware('auth:sanctum')->post('/auth/logout', [AuthController::class, 'logout']);
+Route::get('/auth/is_authorized', [AuthController::class, 'checkBearerToken']);
 
 Route::group(['middleware' => 'auth:sanctum'],function(){
     Route::get('user',[UserController::class,'userDetails']);
-    Route::get('logout',[UserController::class,'logout']);
 });
 
 Route::group(['prefix' => 'books', 'middleware' => []], function () {
     Route::get('/', [BookController::class, 'search']);
+    Route::get('/{id}', [BookController::class, 'getBook']);
     Route::delete('/{id}', [BookController::class, 'delete']);
     Route::post('/', [BookController::class, 'create']);
     Route::put('/', [BookController::class, 'update']);

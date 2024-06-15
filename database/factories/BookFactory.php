@@ -18,6 +18,7 @@ class BookFactory extends Factory
     {
         return [
             'name' => fake()->text(20),
+            'description' => fake()->text(200),
             'price' => rand(10, 100),
             'stock' => rand(10, 10),
             'book_cover_url' => 'https://intamphuc.vn/wp-content/uploads/2023/06/mau-bia-sach-dep-2.jpg',

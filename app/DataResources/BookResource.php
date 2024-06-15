@@ -11,11 +11,12 @@ class BookResource extends BaseDataResource
     /**
      * @var string
      */
-    public $title;
+    public $name;
+
     /**
      * @var string
      */
-    public $content;
+    public $description;
 
     /**
      * @var int
@@ -83,9 +84,11 @@ class BookResource extends BaseDataResource
     protected array $fields = [
         'id',
         'name',
+        'description',
         'user_id',
         'price',
         'stock',
+        'book_cover_url',
         'comments',
         'comment_total',
         'user_name',

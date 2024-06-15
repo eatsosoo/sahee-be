@@ -84,6 +84,35 @@ class BookService extends BaseService
     }
 
     /**
+     * update book
+     *
+     * @param array<string,mixed> $bookData
+     * @return MailBlock
+     * @throws ActionFailException
+     */
+    public function update($bookData)
+    {
+        DB::beginTransaction();
+        try {
+            $mailBlock = $this->bookRepo->update($bookData);
+
+            if (is_null($mailBlock)) {
+                throw new CannotSaveToDBException(ErrorCodes::ERR_CANNOT_UPDATE_RECORD);
+            }
+
+            DB::commit();
+            return $mailBlock;
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw new ActionFailException(
+                'updateBook: ' . json_encode($bookData),
+                $e->getMessage(),
+                $e
+            );
+        }
+    }
+
+    /**
      * delete book
      *
      * @param string $deleteId
@@ -110,6 +139,31 @@ class BookService extends BaseService
         } catch (Exception $ex) {
             DB::rollBack();
             throw new ActionFailException(previous: $ex);
+        }
+    }
+
+    /**
+     * get book detail
+     *
+     * @param int|string $bookId
+     * @return MailTemplate
+     * @throws ActionFailException
+     */
+    public function getBook($bookId)
+    {
+        try {
+            $book = $this->bookRepo->getSingleObject($bookId);
+            if (is_null($book)) {
+                throw new RecordIsNotFoundException(ErrorCodes::ERR_RECORD_NOT_FOUND);
+            }
+
+            return $book;
+        } catch (Exception $e) {
+            throw new ActionFailException(
+                'getBook: ' . $bookId,
+                null,
+                $e
+            );
         }
     }
 }

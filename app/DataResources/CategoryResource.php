@@ -16,6 +16,11 @@ class CategoryResource extends BaseDataResource
     /**
      * @var string
      */
+    public $image_url;
+
+    /**
+     * @var string
+     */
     public $created_at;
 
     /**
@@ -34,6 +39,7 @@ class CategoryResource extends BaseDataResource
     protected array $fields = [
         'id',
         'name',
+        'image_url',
     ];
 
     public function load(mixed $object): void
