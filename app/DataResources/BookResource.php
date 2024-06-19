@@ -84,6 +84,7 @@ class BookResource extends BaseDataResource
     protected array $fields = [
         'id',
         'name',
+        'author',
         'description',
         'user_id',
         'price',
@@ -91,9 +92,6 @@ class BookResource extends BaseDataResource
         'book_cover_url',
         'comments',
         'comment_total',
-        'user_name',
-        'user_avatar_url',
-        'user',
         'category_id',
         'category_name',
         'created_at',

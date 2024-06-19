@@ -14,27 +14,27 @@ class CategorySeeder extends Seeder
     {
         $categories = [
             [
-                'name' => 'Education Curriculum',
+                'name' => 'Giáo trình giáo dục',
                 'image_url' => 'https://intamphuc.vn/wp-content/uploads/2023/06/mau-bia-sach-dep-2.jpg',
             ],
             [
-                'name' => 'Fiction & Fantasy',
+                'name' => 'Tiểu thuyết & Huyền bí',
                 'image_url' => 'https://intamphuc.vn/wp-content/uploads/2023/06/mau-bia-sach-dep-4.jpg',
             ],
             [
-                'name' => 'Religion & Spirituality',
+                'name' => 'Tôn giáo & Tâm linh',
                 'image_url' => 'https://intamphuc.vn/wp-content/uploads/2023/06/mau-bia-sach-dep-6.jpg',
             ],
             [
-                'name' => 'Romance Books',
+                'name' => 'Sách lãng mạn',
                 'image_url' => 'https://intamphuc.vn/wp-content/uploads/2023/06/mau-bia-sach-dep-7.jpg',
             ],
             [
-                'name' => 'Literature & Fiction',
+                'name' => 'Văn học & Kịch',
                 'image_url' => 'https://intamphuc.vn/wp-content/uploads/2023/06/mau-bia-sach-dep.8.jpg',
             ],
             [
-                'name' => 'Biographies & Memoirs',
+                'name' => 'Tiểu sử & Hồi ký',
                 'image_url' => 'https://danviet.mediacdn.vn/upload/2-2015/images/2015-06-30/1436846015-tbdlbat_coc_2_ygdr.jpg',
             ],
         ];

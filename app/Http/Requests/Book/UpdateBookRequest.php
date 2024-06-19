@@ -24,11 +24,13 @@ class UpdateBookRequest extends FormRequest
         $rules = [
             'id' => ['required'],
             'name' => ['required'],
+            'author' => ['required'], // 'author' => 'required
             'book_cover_url' => ['required'],
             'price' => ['required'],
             'stock' => ['required'],
             'user_id' => ['required'],
             'category_id' => ['required'],
+            'description' => ['required']
         ];
 
         return $rules;
@@ -45,6 +47,7 @@ class UpdateBookRequest extends FormRequest
         $input = $this->only(
             'id',
             'name',
+            'author',
             'description',
             'book_cover_url',
             'price',
