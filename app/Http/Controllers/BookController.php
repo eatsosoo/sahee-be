@@ -8,6 +8,7 @@ use App\Helpers\Responses\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Book\SearchBooksRequest;
 use App\Http\Requests\Book\StoreBookRequest;
+use App\Http\Requests\Book\UpdateBookRequest;
 use App\Services\BookService;
 use Illuminate\Http\Request;
 
@@ -75,12 +76,12 @@ class BookController extends Controller
     /**
      * update book
      *
-     * @param StoreBookRequest $request
+     * @param UpdateBookRequest $request
      * @return Response
      * @throws ActionFailException
      * @throws InvalidModelInstanceException
      */
-    public function update(StoreBookRequest $request)
+    public function update(UpdateBookRequest $request)
     {
         // 1. get validated payload
         $bookData = $request->all();

@@ -22,7 +22,6 @@ class StoreBookRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'id' => ['required'],
             'name' => ['required'],
             'book_cover_url' => ['required'],
             'price' => ['required'],
@@ -43,7 +42,6 @@ class StoreBookRequest extends FormRequest
     {
         parent::prepareForValidation();
         $input = $this->only(
-            'id',
             'name',
             'description',
             'book_cover_url',
@@ -51,6 +49,7 @@ class StoreBookRequest extends FormRequest
             'stock',
             'user_id',
             'category_id',
+            'description'
         );
 
         $this->replace($input);

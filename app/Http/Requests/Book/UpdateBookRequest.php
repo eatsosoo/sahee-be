@@ -11,7 +11,7 @@ class UpdateBookRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,39 @@ class UpdateBookRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
+        $rules = [
+            'id' => ['required'],
+            'name' => ['required'],
+            'book_cover_url' => ['required'],
+            'price' => ['required'],
+            'stock' => ['required'],
+            'user_id' => ['required'],
+            'category_id' => ['required'],
         ];
+
+        return $rules;
+    }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        parent::prepareForValidation();
+        $input = $this->only(
+            'id',
+            'name',
+            'description',
+            'book_cover_url',
+            'price',
+            'stock',
+            'user_id',
+            'category_id',
+            'description'
+        );
+
+        $this->replace($input);
     }
 }
