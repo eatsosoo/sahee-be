@@ -48,4 +48,8 @@ Route::group(['prefix' => 'comments', 'middleware' => []], function () {
 
 Route::group(['prefix' => 'categories', 'middleware' => []], function () {
     Route::get('/', [CategoryController::class, 'search']);
+    Route::post('/', [CategoryController::class, 'create']);
+    Route::get('/{id}', [CategoryController::class, 'getCategory']);
+    Route::delete('/{id}', [CategoryController::class, 'delete']);
+    Route::put('/', [CategoryController::class, 'update']);
 });

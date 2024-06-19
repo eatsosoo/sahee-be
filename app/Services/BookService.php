@@ -87,21 +87,21 @@ class BookService extends BaseService
      * update book
      *
      * @param array<string,mixed> $bookData
-     * @return MailBlock
+     * @return Book
      * @throws ActionFailException
      */
     public function update($bookData)
     {
         DB::beginTransaction();
         try {
-            $mailBlock = $this->bookRepo->update($bookData);
+            $book = $this->bookRepo->update($bookData);
 
-            if (is_null($mailBlock)) {
+            if (is_null($book)) {
                 throw new CannotSaveToDBException(ErrorCodes::ERR_CANNOT_UPDATE_RECORD);
             }
 
             DB::commit();
-            return $mailBlock;
+            return $book;
         } catch (Exception $e) {
             DB::rollBack();
             throw new ActionFailException(
@@ -146,7 +146,7 @@ class BookService extends BaseService
      * get book detail
      *
      * @param int|string $bookId
-     * @return MailTemplate
+     * @return Book
      * @throws ActionFailException
      */
     public function getBook($bookId)

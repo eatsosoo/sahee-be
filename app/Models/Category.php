@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends BaseModel
 {
@@ -16,6 +17,7 @@ class Category extends BaseModel
     protected $fillable = [
         'id',
         'name',
+        'image_url',
     ];
 
     public function books()

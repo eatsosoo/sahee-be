@@ -67,10 +67,10 @@ class BookController extends Controller
      */
     public function create(StoreBookRequest $request)
     {
-        $commentCreated = $this->bookService->create($request->all());
-        $result = new BookResource($commentCreated);
+        $bookCreated = $this->bookService->create($request->all());
+        $result = new BookResource($bookCreated);
 
-        return ApiResponse::v1()->send($result, dataKey: 'comment');
+        return ApiResponse::v1()->send($result, dataKey: 'book');
     }
 
     /**
