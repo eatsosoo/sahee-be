@@ -24,7 +24,7 @@ class BookFactory extends Factory
             'stock' => rand(10, 10),
             'book_cover_url' => 'https://intamphuc.vn/wp-content/uploads/2023/06/mau-bia-sach-dep-2.jpg',
             'user_id' => rand(1, 10),
-            'category_id' => rand(1, 10),
+            'category_id' => rand(1, 6),
         ];
     }
 }

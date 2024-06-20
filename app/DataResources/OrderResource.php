@@ -3,60 +3,50 @@
 namespace App\DataResources;
 
 use App\Helpers\Common\CommonHelper;
-use App\Models\Book;
+use App\Models\Order;
 
-class BookResource extends BaseDataResource
+class OrderResource extends BaseDataResource
 {
 
     /**
      * @var string
      */
-    public $name;
+    public $user_id;
 
     /**
      * @var string
      */
-    public $description;
+    public $order_code;
 
     /**
      * @var int
      */
-    protected $user_id;
+    protected $status;
 
     /**
      * @var int
      */
-    public $likes;
+    public $total_amount;
 
     /**
      * @var int
      */
-    public $views;
+    public $payment_method;
 
     /**
      * @var int
      */
-    public $comment_total;
+    public $shipping_address;
 
     /**
-     * @var string
+     * @var int
      */
-    public $user_name;
+    public $shipping_cost;
 
     /**
-     * @var string
+     * @var array
      */
-    public $user_avatar_url;
-
-    /**
-     * @var string
-     */
-    public $category_id;
-
-    /**
-     * @var string
-     */
-    public $category_name;
+    public $items;
 
     /**
      * @var string
@@ -70,25 +60,21 @@ class BookResource extends BaseDataResource
 
     public function modelClass(): string
     {
-        return Book::class;
+        return Order::class;
     }
 
     /**
      * @var array|string[]
      */
     protected array $fields = [
-        'id',
-        'name',
-        'author',
-        'description',
         'user_id',
-        'price',
-        'stock',
-        'book_cover_url',
-        'comments',
-        'comment_total',
-        'category_id',
-        'category_name',
+        'order_code',
+        'status',
+        'total_amount',
+        'payment_method',
+        'shipping_address',
+        'shipping_cost',
+        'items',
         'created_at',
         'updated_at',
     ];
@@ -96,11 +82,8 @@ class BookResource extends BaseDataResource
     public function load(mixed $object): void
     {
         parent::copy($object, $this->fields);
+        $this->items = BaseDataResource::generateResources($object->items, OrderItemResource::class);
         $this->created_at = CommonHelper::formatDate($object->created_at);
         $this->updated_at = CommonHelper::formatDate($object->updated_at);
-
-        $this->category_name = $object->category->name;
-
-        $this->comment_total = count($object->comments);
     }
 }

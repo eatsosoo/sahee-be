@@ -17,11 +17,14 @@ class Book extends BaseModel
      */
     protected $fillable = [
         'name',
+        'author',
+        'description',
         'price',
         'stock',
         'book_cover_url',
         'user_id',
         'category_id',
+        'category'
     ];
 
     public function user()
@@ -31,11 +34,16 @@ class Book extends BaseModel
 
     public function category()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Category::class);
     }
 
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
     }
 }

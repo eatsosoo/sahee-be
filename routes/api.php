@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -52,4 +53,12 @@ Route::group(['prefix' => 'categories', 'middleware' => []], function () {
     Route::get('/{id}', [CategoryController::class, 'getCategory']);
     Route::delete('/{id}', [CategoryController::class, 'delete']);
     Route::put('/', [CategoryController::class, 'update']);
+});
+
+Route::group(['prefix' => 'orders', 'middleware' => []], function () {
+    Route::get('/', [OrderController::class, 'search']);
+    Route::post('/', [OrderController::class, 'create']);
+    Route::get('/{id}', [OrderController::class, 'getOrder']);
+    Route::delete('/{id}', [OrderController::class, 'delete']);
+    Route::put('/', [OrderController::class, 'update']);
 });
