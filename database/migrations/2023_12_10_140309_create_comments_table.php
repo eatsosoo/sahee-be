@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->text('content');
-            $table->integer('parent_id')->nullable();
+            $table->integer('star')->default(0)->comment('0-5');
             $table->unsignedBigInteger('book_id');
             $table->timestamps();
             $table->softDeletes();

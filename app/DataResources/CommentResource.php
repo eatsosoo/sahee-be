@@ -16,6 +16,11 @@ class CommentResource extends BaseDataResource
     /**
      * @var int
      */
+    public $star;
+
+    /**
+     * @var int
+     */
     protected $parent_id;
 
     /**
@@ -59,6 +64,7 @@ class CommentResource extends BaseDataResource
     protected array $fields = [
         'id',
         'content',
+        'star',
         'user_id',
         'book_id',
         'parent_id',

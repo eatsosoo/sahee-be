@@ -10,6 +10,7 @@ use App\Http\Requests\Comment\SearchCommentsRequest;
 use App\Http\Requests\Comment\StoreCommentRequest;
 use App\Http\Requests\Comment\UpdateCommentRequest;
 use App\Services\CommentService;
+use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
@@ -99,5 +100,25 @@ class CommentController extends Controller
         $result = $this->commentService->delete($requestId);
         $message = __('message.delete_success');
         return ApiResponse::v1()->report($result, $message);
+    }
+
+    /**
+     * get rating
+     *
+     * @param Request $request
+     * @return Response
+     * @throws ActionFailException
+     * @throws InvalidModelInstanceException
+     */
+    public function rating(Request $request)
+    {
+        // 1. Get category template id
+        $book = $request->id;
+
+        // 2. Call business processes
+        $rating = $this->commentService->calculateStatistics($book);
+
+        // 3. Send response using the predefined format
+        return ApiResponse::v1()->send($rating, 'rating');
     }
 }

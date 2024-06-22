@@ -45,6 +45,7 @@ Route::group(['prefix' => 'comments', 'middleware' => []], function () {
     Route::delete('/{id}', [CommentController::class, 'delete']);
     Route::post('/', [CommentController::class, 'create']);
     Route::put('/', [CommentController::class, 'update']);
+    Route::get('/{id}/rating', [CommentController::class, 'rating']);
 });
 
 Route::group(['prefix' => 'categories', 'middleware' => []], function () {
@@ -61,4 +62,5 @@ Route::group(['prefix' => 'orders', 'middleware' => []], function () {
     Route::get('/{id}', [OrderController::class, 'getOrder']);
     Route::delete('/{id}', [OrderController::class, 'delete']);
     Route::put('/', [OrderController::class, 'update']);
+    Route::post('/{id}/status', [OrderController::class, 'updateStatus']);
 });

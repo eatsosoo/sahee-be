@@ -133,4 +133,21 @@ class OrderController extends Controller
         // 4. Send response using the predefined format
         return ApiResponse::v1()->send($result, 'order');
     }
+
+    /**
+     * update status
+     *
+     * @param Request $request
+     * @return Response
+     * @throws ActionFailException
+     */
+    public function updateStatus(Request $request)
+    {
+        $data = $request->all();
+
+        $isUpdate = $this->orderService->updateStatus($data);
+        $message = "Cập nhât trạng thái đơn hàng thành công";
+
+        return ApiResponse::v1()->withMessage($message)->send($isUpdate, 'is_update');
+    }
 }

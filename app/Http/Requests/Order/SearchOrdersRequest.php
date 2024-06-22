@@ -38,6 +38,7 @@ class SearchOrdersRequest extends BaseFormRequest
         parent::prepareForValidation();
         $input = $this->only(
             'name',
+            'user_id',
             'pagination',
             'sort',
         );

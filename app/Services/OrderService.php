@@ -42,6 +42,11 @@ class OrderService extends BaseService
                 $query = $this->orderRepo->queryOnAField(['name', $param]);
             }
 
+            if (isset($rawConditions['user_id'])) {
+                $param = CommonHelper::escapeLikeQueryParameter($rawConditions['user_id']);
+                $query = $this->orderRepo->queryOnAField(['user_id', $param]);
+            }
+
             if (isset($rawConditions['sort'])) {
                 $query = $query->orderBy($rawConditions['sort']['key'], $rawConditions['sort']['order']);
             }
@@ -51,7 +56,7 @@ class OrderService extends BaseService
                 return $paginator->items();
             }
 
-            return $this->orderRepo->withs(['user'], $query)->get()->all();
+            return $this->orderRepo->withs(['book'], $query)->get()->all();
         } catch (Exception $e) {
             Log::error('SearchOrders: ' . $e->getMessage());
             throw new ActionFailException(
@@ -174,6 +179,31 @@ class OrderService extends BaseService
         } catch (Exception $e) {
             throw new ActionFailException(
                 'getOrder: ' . $orderId,
+                null,
+                $e
+            );
+        }
+    }
+
+    /**
+     * update order status
+     *
+     * @param array<string,mixed> $data
+     * @return bool
+     * @throws ActionFailException
+     */
+    public function updateStatus($data)
+    {
+        try {
+            $this->orderRepo->update([
+                'id' => $data['id'],
+                'status' => $data['status']
+            ]);
+
+            return true;
+        } catch (Exception $e) {
+            throw new ActionFailException(
+                'updateFlagParameters: ' . json_encode($data),
                 null,
                 $e
             );

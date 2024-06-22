@@ -138,4 +138,45 @@ class CommentService extends BaseService
             throw new ActionFailException(previous: $ex);
         }
     }
+
+    /**
+     * Calculate average star rating, total number of comments, and total number of each star rating.
+     *
+     * @param string $bookId
+     * @return array
+     */
+    public function calculateStatistics($bookId)
+    {
+        try {
+            $query = $this->commentRepo->search();
+
+            if ($bookId) {
+                $param = CommonHelper::escapeLikeQueryParameter($bookId);
+                $query = $this->commentRepo->queryOnAField(['book_id', $param]);
+            }
+
+            $comments = $query->get()->all();
+            $totalComments = count($comments);
+            $totalRatings = 0;
+            $starRatings = [0, 0, 0, 0, 0]; // Initialize array to store count of each star rating
+            // dd($comments);
+
+            foreach ($comments as $comment) {
+                $rating = $comment->star;
+                $totalRatings += $rating;
+                $starRatings[$rating - 1]++; // Increment count for corresponding star rating
+            }
+
+            $averageRating = round($totalRatings / $totalComments, 2);
+
+            return [
+                'average_rating' => $averageRating,
+                'total_comments' => $totalComments,
+                'star_ratings' => $starRatings
+            ];
+        } catch (Exception $e) {
+            Log::error('CalculateStatistics: ' . $e->getMessage());
+            throw new ActionFailException('CalculateStatistics: Failed to calculate statistics.', null, $e);
+        }
+    }
 }

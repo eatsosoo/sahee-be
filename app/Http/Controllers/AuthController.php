@@ -22,7 +22,7 @@ class AuthController extends Controller
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'result' => false, // add this line
-                'data' => ['message' => 'Email or password is incorrect']
+                'data' => ['message' => 'Email hoặc mật khẩu không đúng!']
             ], 401);
         }
 
