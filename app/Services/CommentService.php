@@ -39,6 +39,16 @@ class CommentService extends BaseService
                 $query = $this->commentRepo->queryOnAField(['book_id', $param]);
             }
 
+            if (isset($rawConditions['user_id'])) {
+                $param = CommonHelper::escapeLikeQueryParameter($rawConditions['user_id']);
+                $query = $this->commentRepo->queryOnAField(['user_id', $param]);
+            }
+
+            if (isset($rawConditions['order_id'])) {
+                $param = CommonHelper::escapeLikeQueryParameter($rawConditions['order_id']);
+                $query = $this->commentRepo->queryOnAField(['order_id', $param]);
+            }
+
             if (isset($rawConditions['sort'])) {
                 $query = $query->orderBy($rawConditions['sort']['key'], $rawConditions['sort']['order']);
             }
@@ -159,7 +169,6 @@ class CommentService extends BaseService
             $totalComments = count($comments);
             $totalRatings = 0;
             $starRatings = [0, 0, 0, 0, 0]; // Initialize array to store count of each star rating
-            // dd($comments);
 
             foreach ($comments as $comment) {
                 $rating = $comment->star;
@@ -177,6 +186,29 @@ class CommentService extends BaseService
         } catch (Exception $e) {
             Log::error('CalculateStatistics: ' . $e->getMessage());
             throw new ActionFailException('CalculateStatistics: Failed to calculate statistics.', null, $e);
+        }
+    }
+
+    /**
+     * Find a comment by order_id, book_id, and user_id.
+     *
+     * @param string $orderId
+     * @param string $bookId
+     * @param string $userId
+     * @return Comment|null
+     */
+    public function findComment($orderId, $bookId, $userId)
+    {
+        try {
+            $query = $this->commentRepo->search();
+            $query->where('order_id', $orderId)
+                ->where('book_id', $bookId)
+                ->where('user_id', $userId);
+                
+            return $query->first();
+        } catch (Exception $e) {
+            Log::error('FindComment: ' . $e->getMessage());
+            throw new ActionFailException('FindComment: Failed to find comment.', null, $e);
         }
     }
 }

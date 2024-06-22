@@ -46,6 +46,7 @@ Route::group(['prefix' => 'comments', 'middleware' => []], function () {
     Route::post('/', [CommentController::class, 'create']);
     Route::put('/', [CommentController::class, 'update']);
     Route::get('/{id}/rating', [CommentController::class, 'rating']);
+    Route::get('/{order_id}/{book_id}/{user_id}/find_rating', [CommentController::class, 'findComment']);
 });
 
 Route::group(['prefix' => 'categories', 'middleware' => []], function () {

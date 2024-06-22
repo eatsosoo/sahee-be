@@ -23,6 +23,10 @@ class UpdateCommentRequest extends FormRequest
     {
         $rules = [
             'content' => ['required'],
+            'star' => ['required'],
+            'user_id' => ['required'],
+            'book_id' => ['required'],
+            'order_id' => ['required'],
             'id' => ['required'],
         ];
 
@@ -38,8 +42,12 @@ class UpdateCommentRequest extends FormRequest
     {
         parent::prepareForValidation();
         $input = $this->only(
-            'content',
             'id',
+            'content',
+            'star',
+            'user_id',
+            'book_id',
+            'order_id',
         );
 
         $this->replace($input);

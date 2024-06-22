@@ -67,7 +67,7 @@ class CommentResource extends BaseDataResource
         'star',
         'user_id',
         'book_id',
-        'parent_id',
+        'order_id',
         'user_name',
         'user_avatar_url',
         'created_at',

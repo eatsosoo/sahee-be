@@ -121,4 +121,26 @@ class CommentController extends Controller
         // 3. Send response using the predefined format
         return ApiResponse::v1()->send($rating, 'rating');
     }
+
+    /**
+     * find review of order
+     *
+     * @param Request $request
+     * @return Response
+     * @throws ActionFailException
+     * @throws InvalidModelInstanceException
+     */
+    public function findComment(Request $request)
+    {
+        // 1. Get category template id
+        $order = $request->order_id;
+        $book = $request->book_id;
+        $user = $request->user_id;
+
+        // 2. Call business processes
+        $rating = $this->commentService->findComment($order, $book, $user);
+
+        // 3. Send response using the predefined format
+        return ApiResponse::v1()->send($rating, 'rating');
+    }
 }

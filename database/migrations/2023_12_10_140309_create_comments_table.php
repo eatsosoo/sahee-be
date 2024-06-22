@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
             $table->text('content');
-            $table->integer('star')->default(0)->comment('0-5');
+            $table->integer('star')->default(0)->comment('1-5');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('book_id');
+            $table->unsignedBigInteger('order_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
@@ -28,6 +29,11 @@ return new class extends Migration
             $table->foreign('book_id')
                 ->references('id')
                 ->on('books')
+                ->onDelete('cascade');
+
+            $table->foreign('order_id')
+                ->references('id')
+                ->on('orders')
                 ->onDelete('cascade');
         });
     }

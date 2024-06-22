@@ -38,6 +38,8 @@ class SearchCommentsRequest extends BaseFormRequest
         parent::prepareForValidation();
         $input = $this->only(
             'book_id',
+            'order_id',
+            'user_id',
             'pagination',
             'sort',
         );

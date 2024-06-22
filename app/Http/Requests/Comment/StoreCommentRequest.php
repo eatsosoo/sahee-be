@@ -23,8 +23,10 @@ class StoreCommentRequest extends FormRequest
     {
         $rules = [
             'content' => ['required'],
+            'star' => ['required'],
             'user_id' => ['required'],
             'book_id' => ['required'],
+            'order_id' => ['required'],
         ];
 
         return $rules;
@@ -40,9 +42,10 @@ class StoreCommentRequest extends FormRequest
         parent::prepareForValidation();
         $input = $this->only(
             'content',
+            'star',
             'user_id',
             'book_id',
-            'parent_id',
+            'order_id',
         );
 
         $this->replace($input);
