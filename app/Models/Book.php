@@ -24,7 +24,6 @@ class Book extends BaseModel
         'book_cover_url',
         'user_id',
         'category_id',
-        'category'
     ];
 
     public function user()
