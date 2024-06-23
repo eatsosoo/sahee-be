@@ -35,6 +35,8 @@ class UserController extends Controller
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6',
+            'address' => 'nullable|string',
+            'phone' => 'nullable|string'
         ]);
 
         $user = new User();
@@ -42,6 +44,8 @@ class UserController extends Controller
         $user->email = $request->input('email');
         $user->password = Hash::make($request->input('password'));
         $user->avatar_url = 'https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png';
+        $user->address = $request->input('address');
+        $user->phone = $request->input('phone');
         $user->save();
 
         return Response(['data' => $user], 201);
