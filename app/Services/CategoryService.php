@@ -34,8 +34,7 @@ class CategoryService extends BaseService
             $query = $this->categoryRepo->search();
 
             if (isset($rawConditions['name'])) {
-                $param = CommonHelper::escapeLikeQueryParameter($rawConditions['name']);
-                $query = $this->categoryRepo->queryOnAField(['name', $param]);
+                $query->where('name', 'like', '%' . $rawConditions['name'] . '%');
             }
 
             if (isset($rawConditions['sort'])) {

@@ -38,6 +38,8 @@ class SearchBooksRequest extends BaseFormRequest
         parent::prepareForValidation();
         $input = $this->only(
             'name',
+            'author',
+            'category_id',
             'pagination',
             'sort',
         );

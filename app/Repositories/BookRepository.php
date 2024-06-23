@@ -19,11 +19,23 @@ class BookRepository extends BaseRepository
     /**
      * get books list
      *
-     * @param array<mixed> $condition
-     * @return Book[]
+     * @param array<mixed> $rawConditions
+     * @param mixed $query
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function getBooks($condition = [])
+    public function searchBooks($rawConditions, $query)
     {
-        return Book::with(['user', 'comments'])->get();
+        $conditions = [];
+        if (!empty($rawConditions['name'])) {
+            $conditions[] = ['name', 'like', '%' . $rawConditions['name'] . '%'];
+        }
+        if (!empty($rawConditions['author'])) {
+            $conditions[] = ['author', 'like', '%' . $rawConditions['author'] . '%'];
+        }
+        if (!empty($rawConditions['category_id'])) {
+            $conditions[] = ['category_id', '=', $rawConditions['category_id']];
+        }
+        
+        return $query->where($conditions);
     }
 }

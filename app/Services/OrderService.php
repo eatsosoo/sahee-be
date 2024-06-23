@@ -37,14 +37,21 @@ class OrderService extends BaseService
         try {
             $query = $this->orderRepo->search();
 
-            if (isset($rawConditions['name'])) {
-                $param = CommonHelper::escapeLikeQueryParameter($rawConditions['name']);
-                $query = $this->orderRepo->queryOnAField(['name', $param]);
+            if (isset($rawConditions['order_code'])) {
+                $param = CommonHelper::escapeLikeQueryParameter($rawConditions['order_code']);
+                $query = $this->orderRepo->queryOnAField(['order_code', $param]);
             }
 
-            if (isset($rawConditions['user_id'])) {
-                $param = CommonHelper::escapeLikeQueryParameter($rawConditions['user_id']);
-                $query = $this->orderRepo->queryOnAField(['user_id', $param]);
+            if (isset($rawConditions['customer_name'])) {
+                $query = $query->whereHas('user', function ($q) use ($rawConditions) {
+                    $q->where('name', 'like', '%' . $rawConditions['customer_name'] . '%');
+                });
+            }
+
+            if (isset($rawConditions['customer_phone'])) {
+                $query = $query->whereHas('user', function ($q) use ($rawConditions) {
+                    $q->where('phone', 'like', '%' . $rawConditions['customer_phone'] . '%');
+                });
             }
 
             if (isset($rawConditions['sort'])) {

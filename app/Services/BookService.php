@@ -32,11 +32,7 @@ class BookService extends BaseService
     {
         try {
             $query = $this->bookRepo->search();
-
-            if (isset($rawConditions['name'])) {
-                $param = CommonHelper::escapeLikeQueryParameter($rawConditions['name']);
-                $query = $this->bookRepo->queryOnAField(['name', $param]);
-            }
+            $query = $this->bookRepo->searchBooks($rawConditions, $query);
 
             if (isset($rawConditions['sort'])) {
                 $query = $query->orderBy($rawConditions['sort']['key'], $rawConditions['sort']['order']);
