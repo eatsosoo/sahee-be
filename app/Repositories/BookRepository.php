@@ -38,4 +38,17 @@ class BookRepository extends BaseRepository
         
         return $query->where($conditions);
     }
+
+    /**
+     * get book by id
+     *
+     * @param int $id
+     * @return void
+     */
+    public function updateStock($bookId, $quantity)
+    {
+        $book = Book::find($bookId);
+        $book->stock -= $quantity;
+        $book->save();
+    }
 }

@@ -28,6 +28,11 @@ class Order extends BaseModel
         'payment_method'
     ];
 
+    const STATUS_PENDING = 'pending';
+    const STATUS_PROCESSING = 'processing';
+    const STATUS_COMPLETED = 'completed';
+    const STATUS_CANCELLED = 'cancelled';
+
     protected static function boot()
     {
         parent::boot();

@@ -8,7 +8,9 @@ use App\Exceptions\DB\CannotDeleteRecordException;
 use App\Exceptions\DB\CannotSaveToDBException;
 use App\Exceptions\DB\RecordIsNotFoundException;
 use App\Helpers\Common\CommonHelper;
+use App\Models\Book;
 use App\Models\Order;
+use App\Repositories\BookRepository;
 use App\Repositories\OrderItemRepository;
 use App\Repositories\OrderRepository;
 use Exception;
@@ -21,11 +23,14 @@ class OrderService extends BaseService
     protected OrderRepository $orderRepo;
     /** @var OrderItemRepository */
     protected OrderItemRepository $orderItemRepo;
+    /** @var BookRepository */
+    protected BookRepository $bookRepo;
 
-    public function __construct(OrderRepository $orderRepo, OrderItemRepository $orderItemRepo)
+    public function __construct(OrderRepository $orderRepo, OrderItemRepository $orderItemRepo, BookRepository $bookRepo)
     {
         $this->orderRepo = $orderRepo;
         $this->orderItemRepo = $orderItemRepo;
+        $this->bookRepo = $bookRepo;
     }
 
     /**
@@ -98,6 +103,7 @@ class OrderService extends BaseService
             foreach ($orderData['items'] as $item) {
                 $item['order_id'] = $order['id'];
                 $orderItem = $this->orderItemRepo->create($item);
+                $this->bookRepo->updateStock($item['book_id'], $item['quantity']);
 
                 if (is_null($orderItem)) {
                     throw new CannotSaveToDBException(ErrorCodes::ERR_CANNOT_CREATE_RELATED_DATA);
@@ -210,6 +216,12 @@ class OrderService extends BaseService
                 'id' => $data['id'],
                 'status' => $data['status']
             ]);
+            if ($data['status'] == Order::STATUS_CANCELLED) {
+                $order = $this->orderRepo->getSingleObject($data['id']);
+                foreach ($order->items as $item) {
+                    $this->bookRepo->updateStock($item->book_id, -$item->quantity);
+                }
+            }
 
             return true;
         } catch (Exception $e) {

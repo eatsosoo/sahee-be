@@ -66,7 +66,5 @@ Route::group(['prefix' => 'orders', 'middleware' => ['auth:sanctum']], function 
     Route::delete('/{id}', [OrderController::class, 'delete'])->middleware('api.auth.gate:' . Permission::ORDER_DELETE['id']);
     Route::put('/', [OrderController::class, 'update'])->middleware('api.auth.gate:' . Permission::ORDER_UPDATE['id']);
     Route::post('/{id}/status', [OrderController::class, 'updateStatus'])->middleware('api.auth.gate:' . Permission::ORDER_UPDATE['id']);
-    Route::post('/{id}/cancel', [OrderController::class, 'updateStatus'])->middleware('api.auth.gate:' . Permission::ORDER_CANCEL['id']);
+    Route::post('/{id}/cancel', [OrderController::class, 'cancelOrder'])->middleware('api.auth.gate:' . Permission::ORDER_CANCEL['id']);
 });
-
-Route::post('/generate-qr-code', [QRCodeController::class, 'generate']);
