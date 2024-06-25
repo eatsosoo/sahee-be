@@ -22,7 +22,8 @@ class OrderService extends BaseService
     /** @var OrderItemRepository */
     protected OrderItemRepository $orderItemRepo;
 
-    public function __construct(OrderRepository $orderRepo, OrderItemRepository $orderItemRepo) {
+    public function __construct(OrderRepository $orderRepo, OrderItemRepository $orderItemRepo)
+    {
         $this->orderRepo = $orderRepo;
         $this->orderItemRepo = $orderItemRepo;
     }
@@ -37,22 +38,25 @@ class OrderService extends BaseService
         try {
             $query = $this->orderRepo->search();
 
-            if (isset($rawConditions['order_code'])) {
-                $param = CommonHelper::escapeLikeQueryParameter($rawConditions['order_code']);
-                $query = $this->orderRepo->queryOnAField(['order_code', $param]);
+            $conditions = [];
+            if (!empty($rawConditions['order_code'])) {
+                $conditions[] = ['order_code', 'like', '%' . $rawConditions['order_code'] . '%'];
+            }
+            if (!empty($rawConditions['customer_name'])) {
+                $conditions[] = ['customer_name', 'like', '%' . $rawConditions['customer_name'] . '%'];
+            }
+            if (!empty($rawConditions['customer_phone'])) {
+                $conditions[] = ['customer_phone', 'like', '%' . $rawConditions['customer_phone'] . '%'];
+            }
+            if (!empty($rawConditions['status'])) {
+                $conditions[] = ['status', '=', $rawConditions['status']];
+            }
+            if (!empty($rawConditions['from']) && !empty($rawConditions['to'])) {
+                $conditions[] = ['created_at', '>=', $rawConditions['from']];
+                $conditions[] = ['created_at', '<=', $rawConditions['to']];
             }
 
-            if (isset($rawConditions['customer_name'])) {
-                $query = $query->whereHas('user', function ($q) use ($rawConditions) {
-                    $q->where('name', 'like', '%' . $rawConditions['customer_name'] . '%');
-                });
-            }
-
-            if (isset($rawConditions['customer_phone'])) {
-                $query = $query->whereHas('user', function ($q) use ($rawConditions) {
-                    $q->where('phone', 'like', '%' . $rawConditions['customer_phone'] . '%');
-                });
-            }
+            $query = $query->where($conditions);
 
             if (isset($rawConditions['sort'])) {
                 $query = $query->orderBy($rawConditions['sort']['key'], $rawConditions['sort']['order']);
@@ -94,7 +98,7 @@ class OrderService extends BaseService
             foreach ($orderData['items'] as $item) {
                 $item['order_id'] = $order['id'];
                 $orderItem = $this->orderItemRepo->create($item);
-                
+
                 if (is_null($orderItem)) {
                     throw new CannotSaveToDBException(ErrorCodes::ERR_CANNOT_CREATE_RELATED_DATA);
                 }

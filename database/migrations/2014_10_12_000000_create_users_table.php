@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('avatar_url');
             $table->string('address')->nullable();
             $table->string('phone')->nullable();
+            $table->integer('role')->default(3);
             $table->rememberToken();
             $table->timestamps();
         });

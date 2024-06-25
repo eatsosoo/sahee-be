@@ -19,7 +19,7 @@ class CommentFactory extends Factory
         return [
             'content' => fake()->text(50),
             'star' => rand(1, 5),
-            'user_id' => rand(1, 10),
+            'user_id' => rand(3, 10),
             'book_id' => rand(1, 10),
         ];
     }

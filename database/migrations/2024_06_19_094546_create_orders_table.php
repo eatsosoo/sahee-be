@@ -18,8 +18,10 @@ return new class extends Migration
             $table->enum('status', ['pending', 'processing', 'completed', 'cancelled']);
             $table->decimal('total_amount', 10, 0);
             $table->string('payment_method')->default('CASH_ON_DELIVERY');
-            $table->text('shipping_address')->nullable();
-            $table->decimal('shipping_cost', 10, 0)->nullable();
+            $table->text('customer_name');
+            $table->string('customer_phone');
+            $table->text('shipping_address');
+            $table->decimal('shipping_cost', 10, 0);
             $table->timestamps();
             $table->softDeletes();
 

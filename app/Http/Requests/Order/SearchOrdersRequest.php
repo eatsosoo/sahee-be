@@ -40,6 +40,9 @@ class SearchOrdersRequest extends BaseFormRequest
             'order_code',
             'customer_name',
             'customer_phone',
+            'status',
+            'from',
+            'to',
             'pagination',
             'sort',
         );

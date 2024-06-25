@@ -21,6 +21,8 @@ class Order extends BaseModel
         'order_code',
         'status',
         'total_amount',
+        'customer_name',
+        'customer_phone',
         'shipping_address',
         'shipping_cost',
         'payment_method'
@@ -39,7 +41,7 @@ class Order extends BaseModel
     {
         do {
             // Generate a random string
-            $orderCode = Str::upper(Str::random(10));
+            $orderCode = Str::upper(Str::random(6));
         } while (self::where('order_code', $orderCode)->exists());
 
         return $orderCode;

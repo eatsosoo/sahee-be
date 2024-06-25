@@ -6,6 +6,8 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\QRCodeController;
+use App\Models\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/user', [UserController::class, 'userDetails']);
+// Route::get('/user', [UserController::class, 'userDetails']);
 Route::post('/register', [UserController::class, 'register']);
 
 
@@ -28,40 +30,43 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/auth/logout', [AuthController::class, 'logout']);
 Route::get('/auth/is_authorized', [AuthController::class, 'checkBearerToken']);
 
-Route::group(['middleware' => 'auth:sanctum'],function(){
-    Route::get('user',[UserController::class,'userDetails']);
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('user', [UserController::class, 'userDetails']);
 });
 
-Route::group(['prefix' => 'books', 'middleware' => []], function () {
-    Route::get('/', [BookController::class, 'search']);
-    Route::get('/{id}', [BookController::class, 'getBook']);
-    Route::delete('/{id}', [BookController::class, 'delete']);
-    Route::post('/', [BookController::class, 'create']);
-    Route::put('/', [BookController::class, 'update']);
+Route::group(['prefix' => 'books', 'middleware' => ['auth:sanctum']], function () {
+    Route::get('/', [BookController::class, 'search'])->middleware('api.auth.gate:' . Permission::PRODUCT_LIST['id']);
+    Route::get('/{id}', [BookController::class, 'getBook'])->middleware('api.auth.gate:' . Permission::PRODUCT_READ['id']);
+    Route::delete('/{id}', [BookController::class, 'delete'])->middleware('api.auth.gate:' . Permission::PRODUCT_DELETE['id']);
+    Route::post('/', [BookController::class, 'create'])->middleware('api.auth.gate:' . Permission::PRODUCT_CREATE['id']);
+    Route::put('/', [BookController::class, 'update'])->middleware('api.auth.gate:' . Permission::PRODUCT_UPDATE['id']);
 });
 
-Route::group(['prefix' => 'comments', 'middleware' => []], function () {
-    Route::get('/', [CommentController::class, 'search']);
-    Route::delete('/{id}', [CommentController::class, 'delete']);
-    Route::post('/', [CommentController::class, 'create']);
-    Route::put('/', [CommentController::class, 'update']);
-    Route::get('/{id}/rating', [CommentController::class, 'rating']);
-    Route::get('/{order_id}/{book_id}/{user_id}/find_rating', [CommentController::class, 'findComment']);
+Route::group(['prefix' => 'comments', 'middleware' => ['auth:sanctum']], function () {
+    Route::get('/', [CommentController::class, 'search'])->middleware('api.auth.gate:' . Permission::COMMENT_LIST['id']);
+    Route::delete('/{id}', [CommentController::class, 'delete'])->middleware('api.auth.gate:' . Permission::COMMENT_DELETE['id']);
+    Route::post('/', [CommentController::class, 'create'])->middleware('api.auth.gate:' . Permission::COMMENT_CREATE['id']);
+    Route::put('/', [CommentController::class, 'update'])->middleware('api.auth.gate:' . Permission::COMMENT_UPDATE['id']);
+    Route::get('/{id}/rating', [CommentController::class, 'rating'])->middleware('api.auth.gate:' . Permission::COMMENT_READ['id']);
+    Route::get('/{order_id}/{book_id}/{user_id}/find_rating', [CommentController::class, 'findComment'])->middleware('api.auth.gate:' . Permission::COMMENT_READ['id']);
 });
 
-Route::group(['prefix' => 'categories', 'middleware' => []], function () {
-    Route::get('/', [CategoryController::class, 'search']);
-    Route::post('/', [CategoryController::class, 'create']);
-    Route::get('/{id}', [CategoryController::class, 'getCategory']);
-    Route::delete('/{id}', [CategoryController::class, 'delete']);
-    Route::put('/', [CategoryController::class, 'update']);
+Route::group(['prefix' => 'categories', 'middleware' => ['auth:sanctum']], function () {
+    Route::get('/', [CategoryController::class, 'search'])->middleware('api.auth.gate:' . Permission::CATEGORY_LIST['id']);
+    Route::post('/', [CategoryController::class, 'create'])->middleware('api.auth.gate:' . Permission::CATEGORY_CREATE['id']);
+    Route::get('/{id}', [CategoryController::class, 'getCategory'])->middleware('api.auth.gate:' . Permission::CATEGORY_READ['id']);
+    Route::delete('/{id}', [CategoryController::class, 'delete'])->middleware('api.auth.gate:' . Permission::CATEGORY_DELETE['id']);
+    Route::put('/', [CategoryController::class, 'update'])->middleware('api.auth.gate:' . Permission::CATEGORY_UPDATE['id']);
 });
 
-Route::group(['prefix' => 'orders', 'middleware' => []], function () {
-    Route::get('/', [OrderController::class, 'search']);
-    Route::post('/', [OrderController::class, 'create']);
-    Route::get('/{id}', [OrderController::class, 'getOrder']);
-    Route::delete('/{id}', [OrderController::class, 'delete']);
-    Route::put('/', [OrderController::class, 'update']);
-    Route::post('/{id}/status', [OrderController::class, 'updateStatus']);
+Route::group(['prefix' => 'orders', 'middleware' => ['auth:sanctum']], function () {
+    Route::get('/', [OrderController::class, 'search'])->middleware('api.auth.gate:' . Permission::ORDER_LIST['id']);
+    Route::post('/', [OrderController::class, 'create'])->middleware('api.auth.gate:' . Permission::ORDER_CREATE['id']);
+    Route::get('/{id}', [OrderController::class, 'getOrder'])->middleware('api.auth.gate:' . Permission::ORDER_READ['id']);
+    Route::delete('/{id}', [OrderController::class, 'delete'])->middleware('api.auth.gate:' . Permission::ORDER_DELETE['id']);
+    Route::put('/', [OrderController::class, 'update'])->middleware('api.auth.gate:' . Permission::ORDER_UPDATE['id']);
+    Route::post('/{id}/status', [OrderController::class, 'updateStatus'])->middleware('api.auth.gate:' . Permission::ORDER_UPDATE['id']);
+    Route::post('/{id}/cancel', [OrderController::class, 'updateStatus'])->middleware('api.auth.gate:' . Permission::ORDER_CANCEL['id']);
 });
+
+Route::post('/generate-qr-code', [QRCodeController::class, 'generate']);

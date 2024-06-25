@@ -176,7 +176,10 @@ class CommentService extends BaseService
                 $starRatings[$rating - 1]++; // Increment count for corresponding star rating
             }
 
-            $averageRating = round($totalRatings / $totalComments, 2);
+            $averageRating = 0;
+            if ($totalRatings && $totalComments) {
+                $averageRating = round($totalRatings / $totalComments, 2);
+            }
 
             return [
                 'average_rating' => $averageRating,

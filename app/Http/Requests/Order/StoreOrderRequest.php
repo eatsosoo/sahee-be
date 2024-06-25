@@ -26,6 +26,8 @@ class StoreOrderRequest extends FormRequest
             'status' => ['required'],
             'total_amount' => ['required'],
             'payment_method' => ['required'],
+            'customer_name' => ['required'],
+            'customer_phone' => ['required'],
             'shipping_address' => ['required'],
             'shipping_cost' => ['required'],
             'items' => ['required']
@@ -47,6 +49,8 @@ class StoreOrderRequest extends FormRequest
             'status',
             'total_amount',
             'payment_method',
+            'customer_name',
+            'customer_phone',
             'shipping_address',
             'shipping_cost',
             'items'
