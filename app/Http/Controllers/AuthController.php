@@ -69,10 +69,20 @@ class AuthController extends Controller
                 'data' => ['message' => 'Invalid bearer token']
             ], 401);
         }
+        $role = DB::table('roles')->where('id', $accessToken->tokenable_id)->first();
+        $permissions = DB::table('permissions')
+            ->join('role_permissions', 'permissions.id', '=', 'role_permissions.permission_id')
+            ->where('role_permissions.role_id', $role->id)
+            ->pluck('permissions.name')
+            ->toArray();
 
         return response()->json([
             'result' => true,
-            'data' => ['message' => 'Bearer token is valid']
+            'data' => [
+                'message' => 'Bearer token is valid',
+                'role' => $role->name,
+                'permissions' => $permissions
+            ]
         ]);
     }
 }
