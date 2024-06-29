@@ -150,4 +150,34 @@ class OrderController extends Controller
 
         return ApiResponse::v1()->withMessage($message)->send($isUpdate, 'is_update');
     }
+
+    /**
+     * Calculate monthly revenue
+     *
+     * @param Request $request
+     * @return Response
+     * @throws ActionFailException
+     */
+    public function revenue(Request $request)
+    {
+        // 1. Get the month and year from the request
+        $type = $request->type;
+
+        // 2. Call the order service to calculate the monthly revenue
+        if ($type == 'monthly') {
+            $year = $request->input('year');
+            $revenue = $this->orderService->monthlyRevenue($year);
+        } else if ($type == 'daily') {
+            $year = $request->input('year');
+            $month = $request->input('month');
+            $revenue = $this->orderService->dailyRevenue($year, $month);
+        } else if ($type == 'weekly') {
+            $year = $request->input('year');
+            $month = $request->input('month');
+            $revenue = $this->orderService->weeklyRevenue($year, $month);
+        }
+
+        // 3. Send the revenue as the response
+        return ApiResponse::v1()->send($revenue, 'revenue');
+    }
 }

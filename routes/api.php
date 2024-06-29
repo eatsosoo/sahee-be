@@ -68,3 +68,5 @@ Route::group(['prefix' => 'orders', 'middleware' => ['auth:sanctum']], function 
     Route::post('/{id}/status', [OrderController::class, 'updateStatus'])->middleware('api.auth.gate:' . Permission::ORDER_UPDATE['id']);
     Route::post('/{id}/cancel', [OrderController::class, 'cancelOrder'])->middleware('api.auth.gate:' . Permission::ORDER_CANCEL['id']);
 });
+
+Route::post('/revenue/{type}', [OrderController::class, 'revenue']);

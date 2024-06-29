@@ -30,6 +30,7 @@ return [
     */
 
     'env' => env('APP_ENV', 'production'),
+    'auth_gate' => env('AUTH_GATE', false),
 
     /*
     |--------------------------------------------------------------------------

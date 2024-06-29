@@ -41,6 +41,7 @@ class SearchOrdersRequest extends BaseFormRequest
             'customer_name',
             'customer_phone',
             'status',
+            'book_name',
             'from',
             'to',
             'pagination',

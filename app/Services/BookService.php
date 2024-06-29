@@ -161,5 +161,5 @@ class BookService extends BaseService
                 $e
             );
         }
-    }
+    }    
 }

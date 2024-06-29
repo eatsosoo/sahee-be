@@ -42,26 +42,7 @@ class OrderService extends BaseService
     {
         try {
             $query = $this->orderRepo->search();
-
-            $conditions = [];
-            if (!empty($rawConditions['order_code'])) {
-                $conditions[] = ['order_code', 'like', '%' . $rawConditions['order_code'] . '%'];
-            }
-            if (!empty($rawConditions['customer_name'])) {
-                $conditions[] = ['customer_name', 'like', '%' . $rawConditions['customer_name'] . '%'];
-            }
-            if (!empty($rawConditions['customer_phone'])) {
-                $conditions[] = ['customer_phone', 'like', '%' . $rawConditions['customer_phone'] . '%'];
-            }
-            if (!empty($rawConditions['status'])) {
-                $conditions[] = ['status', '=', $rawConditions['status']];
-            }
-            if (!empty($rawConditions['from']) && !empty($rawConditions['to'])) {
-                $conditions[] = ['created_at', '>=', $rawConditions['from']];
-                $conditions[] = ['created_at', '<=', $rawConditions['to']];
-            }
-
-            $query = $query->where($conditions);
+            $query = $this->orderRepo->searchOrders($rawConditions, $query);
 
             if (isset($rawConditions['sort'])) {
                 $query = $query->orderBy($rawConditions['sort']['key'], $rawConditions['sort']['order']);
@@ -227,6 +208,71 @@ class OrderService extends BaseService
         } catch (Exception $e) {
             throw new ActionFailException(
                 'updateFlagParameters: ' . json_encode($data),
+                null,
+                $e
+            );
+        }
+    }
+
+    /**
+     * Calculate monthly revenue
+     *
+     * @param int $year
+     * @return float
+     * @throws ActionFailException
+     */
+    public function monthlyRevenue($year)
+    {
+        try {
+            $revenue = $this->orderRepo->monthlyRevenue($year);
+            return $revenue;
+        } catch (Exception $e) {
+            throw new ActionFailException(
+                'calculateMonthlyRevenue: ' . $year . '-',
+                null,
+                $e
+            );
+        }
+    }
+
+    /**
+     * Calculate daily revenue
+     *
+     * @param int $year
+     * @param int $month
+     * @return float
+     * @throws ActionFailException
+     */
+    public function dailyRevenue($year, $month)
+    {
+        try {
+            $revenue = $this->orderRepo->dailyRevenue($year, $month);
+            return $revenue;
+        } catch (Exception $e) {
+            throw new ActionFailException(
+                'calculateDailyRevenue: ' . $year . '-' . $month,
+                null,
+                $e
+            );
+        }
+    }
+
+    /**
+     * Calculate weeklyRevenue revenue
+     *
+     * @param int $year
+     * @param int $month
+     * @return float
+     * @throws ActionFailException
+     */
+    public function weeklyRevenue($year, $month)
+    {
+        try {
+            $revenue = $this->orderRepo->weeklyRevenue($year, $month);
+            return $revenue;
+        } catch (Exception $e) {
+            throw new ActionFailException(
+                'calculateWeeklyRevenue: ' . $year . '-' . $month,
                 null,
                 $e
             );
