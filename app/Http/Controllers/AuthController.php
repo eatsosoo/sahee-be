@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -69,7 +70,9 @@ class AuthController extends Controller
                 'data' => ['message' => 'Invalid bearer token']
             ], 401);
         }
-        $role = DB::table('roles')->where('id', $accessToken->tokenable_id)->first();
+
+        $role = DB::table('users')->where('id', $accessToken->tokenable_id)->first();
+
         $permissions = DB::table('permissions')
             ->join('role_permissions', 'permissions.id', '=', 'role_permissions.permission_id')
             ->where('role_permissions.role_id', $role->id)
