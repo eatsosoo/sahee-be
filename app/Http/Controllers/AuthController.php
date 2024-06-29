@@ -71,11 +71,11 @@ class AuthController extends Controller
             ], 401);
         }
 
-        $role = DB::table('users')->where('id', $accessToken->tokenable_id)->first();
+        $user = DB::table('users')->where('id', $accessToken->tokenable_id)->first();
 
         $permissions = DB::table('permissions')
             ->join('role_permissions', 'permissions.id', '=', 'role_permissions.permission_id')
-            ->where('role_permissions.role_id', $role->id)
+            ->where('role_permissions.role_id', $user->role)
             ->pluck('permissions.name')
             ->toArray();
 
@@ -83,7 +83,7 @@ class AuthController extends Controller
             'result' => true,
             'data' => [
                 'message' => 'Bearer token is valid',
-                'role' => $role->name,
+                'role' => $user->role,
                 'permissions' => $permissions
             ]
         ]);
