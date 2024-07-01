@@ -70,3 +70,6 @@ Route::group(['prefix' => 'orders', 'middleware' => ['auth:sanctum']], function 
 });
 
 Route::post('/revenue/{type}', [OrderController::class, 'revenue']);
+Route::post('/max_stock', [BookController::class, 'getMaxStock']);
+Route::get('/statistics', [OrderController::class, 'getStatistics']);
+

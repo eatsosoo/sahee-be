@@ -166,4 +166,33 @@ class OrderRepository extends BaseRepository
         return Order::whereBetween('created_at', [$startDate, $endDate])
             ->sum('total_amount');
     }
+
+    public function getRevenueThisWeek()
+    {
+        $startOfWeek = date('Y-m-d', strtotime('monday this week'));
+        $endOfWeek = date('Y-m-d', strtotime('sunday this week'));
+        return $this->calculateRevenueByRange($startOfWeek, $endOfWeek);
+    }
+
+    public function getOrdersThisWeek()
+    {
+        $startOfWeek = date('Y-m-d', strtotime('monday this week'));
+        $endOfWeek = date('Y-m-d', strtotime('sunday this week'));
+        return Order::whereBetween('created_at', [$startOfWeek, $endOfWeek])
+            ->count();
+    }
+
+    public function getRevenueToday()
+    {
+        $today = date('Y-m-d');
+        return Order::where('created_at', $today)
+            ->sum('total_amount');
+    }
+
+    public function getOrdersToday()
+    {
+        $today = date('Y-m-d');
+        return Order::where('created_at', $today)
+            ->count();
+    }
 }

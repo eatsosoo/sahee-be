@@ -180,4 +180,17 @@ class OrderController extends Controller
         // 3. Send the revenue as the response
         return ApiResponse::v1()->send($revenue, 'revenue');
     }
+
+    /**
+     * Get statistics
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function getStatistics(Request $request)
+    {
+        $overview = $this->orderService->getStatistics();
+
+        return ApiResponse::v1()->send($overview, 'statistics');
+    }
 }

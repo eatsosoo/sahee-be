@@ -19,7 +19,8 @@ class BookService extends BaseService
     /** @var BookRepository */
     protected BookRepository $bookRepo;
 
-    public function __construct(BookRepository $bookRepo) {
+    public function __construct(BookRepository $bookRepo)
+    {
         $this->bookRepo = $bookRepo;
     }
 
@@ -161,5 +162,31 @@ class BookService extends BaseService
                 $e
             );
         }
-    }    
+    }
+
+    /**
+     * Get the maximum stock of an array of book IDs
+     *
+     * @param array $bookIds
+     * @return int|null
+     */
+    public function getMaxStock(array $bookIds)
+    {
+        try {
+            $stocks = [];
+            foreach ($bookIds as $bookId) {
+                $bookDetail = $this->bookRepo->getSingleObject($bookId);
+                if ($bookDetail) {
+                    $stocks[] = ['id' => $bookId, 'stock' => $bookDetail->stock];
+                }
+            }
+            return $stocks;
+        } catch (Exception $e) {
+            throw new ActionFailException(
+                'getBook: ' . $bookId,
+                null,
+                $e
+            );
+        }
+    }
 }

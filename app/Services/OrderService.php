@@ -278,4 +278,37 @@ class OrderService extends BaseService
             );
         }
     }
+
+        /**
+     * Get the revenue for this week, the number of orders for this week,
+     * the revenue for today, and the number of orders for today.
+     *
+     * @return array
+     */
+    public function getStatistics()
+    {
+        try {
+            $statistics = [];
+
+            // Revenue for this week
+            $revenueThisWeek = $this->orderRepo->getRevenueThisWeek();
+            $statistics['revenue_this_week'] = $revenueThisWeek;
+
+            // Number of orders for this week
+            $ordersThisWeek = $this->orderRepo->getOrdersThisWeek();
+            $statistics['orders_this_week'] = $ordersThisWeek;
+
+            // Revenue for today
+            $revenueToday = $this->orderRepo->getRevenueToday();
+            $statistics['revenue_today'] = $revenueToday;
+
+            // Number of orders for today
+            $ordersToday = $this->orderRepo->getOrdersToday();
+            $statistics['orders_today'] = $ordersToday;
+
+            return $statistics;
+        } catch (Exception $e) {
+            throw new ActionFailException('getStatistics', null, $e);
+        }
+    }
 }

@@ -133,4 +133,19 @@ class BookController extends Controller
         // 4. Send response using the predefined format
         return ApiResponse::v1()->send($result, 'book');
     }
+
+    /**
+     * get max stock
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function getMaxStock(Request $request)
+    {
+        $bookIds = $request->input('book_ids');
+        $maxStock = $this->bookService->getMaxStock($bookIds);
+
+        return ApiResponse::v1()->send($maxStock, 'max_stock');
+        
+    }
 }
