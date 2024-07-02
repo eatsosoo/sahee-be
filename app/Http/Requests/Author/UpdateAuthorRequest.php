@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Book;
+namespace App\Http\Requests\Author;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateBookRequest extends FormRequest
+class UpdateAuthorRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,6 @@ class UpdateBookRequest extends FormRequest
         $rules = [
             'id' => ['required'],
             'name' => ['required'],
-            'author_id' => ['required'], // 'author' => 'required
-            'book_cover_url' => ['required'],
-            'price' => ['required'],
-            'stock' => ['required'],
-            'user_id' => ['required'],
-            'category_id' => ['required'],
-            'description' => ['required']
         ];
 
         return $rules;
@@ -47,14 +40,6 @@ class UpdateBookRequest extends FormRequest
         $input = $this->only(
             'id',
             'name',
-            'author_id',
-            'description',
-            'book_cover_url',
-            'price',
-            'stock',
-            'user_id',
-            'category_id',
-            'description'
         );
 
         $this->replace($input);

@@ -26,6 +26,11 @@ class BookResource extends BaseDataResource
     /**
      * @var int
      */
+    protected $author;
+
+    /**
+     * @var int
+     */
     public $likes;
 
     /**
@@ -82,6 +87,7 @@ class BookResource extends BaseDataResource
         'author',
         'description',
         'user_id',
+        'author_id',
         'price',
         'stock',
         'book_cover_url',
@@ -100,7 +106,7 @@ class BookResource extends BaseDataResource
         $this->updated_at = CommonHelper::formatDate($object->updated_at);
 
         $this->category_name = $object->category->name;
-
+        $this->author = $object->author->name;
         $this->comment_total = count($object->comments);
     }
 }

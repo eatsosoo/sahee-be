@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Book>
  */
-class BookFactory extends Factory
+class AuthorFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,13 +18,9 @@ class BookFactory extends Factory
     {
         return [
             'name' => fake()->text(20),
-            'author_id' => rand(1, 5),
-            'description' => fake()->text(200),
-            'price' => rand(10000, 1000000),
-            'stock' => rand(10, 10),
-            'book_cover_url' => 'https://intamphuc.vn/wp-content/uploads/2023/06/mau-bia-sach-dep-2.jpg',
-            'user_id' => rand(3, 10),
-            'category_id' => rand(1, 6),
+            'nationality' => 'Vietnam',
+            'dob' => '1990-01-01',
+            'pseudonym' => fake()->text(20),
         ];
     }
 }

@@ -23,7 +23,7 @@ class StoreBookRequest extends FormRequest
     {
         $rules = [
             'name' => ['required'],
-            'author' => ['required'],
+            'author_id' => ['required'],
             'book_cover_url' => ['required'],
             'price' => ['required'],
             'stock' => ['required'],
@@ -45,7 +45,7 @@ class StoreBookRequest extends FormRequest
         parent::prepareForValidation();
         $input = $this->only(
             'name',
-            'author',
+            'author_id',
             'description',
             'book_cover_url',
             'price',

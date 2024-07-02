@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\BookController;
@@ -57,6 +58,14 @@ Route::group(['prefix' => 'categories', 'middleware' => ['auth:sanctum']], funct
     Route::get('/{id}', [CategoryController::class, 'getCategory'])->middleware('api.auth.gate:' . Permission::CATEGORY_READ['id']);
     Route::delete('/{id}', [CategoryController::class, 'delete'])->middleware('api.auth.gate:' . Permission::CATEGORY_DELETE['id']);
     Route::put('/', [CategoryController::class, 'update'])->middleware('api.auth.gate:' . Permission::CATEGORY_UPDATE['id']);
+});
+
+Route::group(['prefix' => 'authors', 'middleware' => []], function () {
+    Route::get('/', [AuthorController::class, 'search']);
+    Route::post('/', [AuthorController::class, 'create']);
+    Route::get('/{id}', [AuthorController::class, 'getAuthor']);
+    Route::delete('/{id}', [AuthorController::class, 'delete']);
+    Route::put('/', [AuthorController::class, 'update']);
 });
 
 Route::group(['prefix' => 'orders', 'middleware' => ['auth:sanctum']], function () {

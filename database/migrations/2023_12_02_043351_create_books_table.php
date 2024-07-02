@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('books', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('author');
             $table->text('description');
             $table->integer('stock');
             $table->integer('price');
             $table->string('book_cover_url');
+            $table->unsignedBigInteger('author_id');
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
@@ -32,6 +32,11 @@ return new class extends Migration
             $table->foreign('category_id')
                 ->references('id')
                 ->on('categories')
+                ->onDelete('cascade');
+
+            $table->foreign('author_id')
+                ->references('id')
+                ->on('authors')
                 ->onDelete('cascade');
         });
     }

@@ -29,14 +29,20 @@ class BookRepository extends BaseRepository
         if (!empty($rawConditions['name'])) {
             $conditions[] = ['name', 'like', '%' . $rawConditions['name'] . '%'];
         }
-        if (!empty($rawConditions['author'])) {
-            $conditions[] = ['author', 'like', '%' . $rawConditions['author'] . '%'];
-        }
+        
         if (!empty($rawConditions['category_id'])) {
             $conditions[] = ['category_id', '=', $rawConditions['category_id']];
         }
         
-        return $query->where($conditions);
+        $query = $query->where($conditions);
+
+        if (!empty($rawConditions['author'])) {
+            $query = $query->whereHas('author', function ($query) use ($rawConditions) {
+                $query->where('name', 'like', '%' . $rawConditions['author'] . '%');
+            });
+        }
+
+        return $query;
     }
 
     /**
