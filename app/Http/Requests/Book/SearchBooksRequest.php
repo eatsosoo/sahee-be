@@ -39,6 +39,7 @@ class SearchBooksRequest extends BaseFormRequest
         $input = $this->only(
             'name',
             'author',
+            'stock',
             'category_id',
             'pagination',
             'sort',

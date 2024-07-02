@@ -33,6 +33,10 @@ class BookRepository extends BaseRepository
         if (!empty($rawConditions['category_id'])) {
             $conditions[] = ['category_id', '=', $rawConditions['category_id']];
         }
+
+        if (!empty($rawConditions['stock'])) {
+            $conditions[] = ['stock', '<=', $rawConditions['stock']];
+        }
         
         $query = $query->where($conditions);
 
