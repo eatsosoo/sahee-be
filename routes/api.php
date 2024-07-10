@@ -35,9 +35,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('user', [UserController::class, 'userDetails']);
 });
 
+Route::get('/books', [BookController::class, 'search']);
+Route::get('/books/{id}', [BookController::class, 'getBook']);
+
 Route::group(['prefix' => 'books', 'middleware' => ['auth:sanctum']], function () {
-    Route::get('/', [BookController::class, 'search']);
-    Route::get('/{id}', [BookController::class, 'getBook']);
     Route::delete('/{id}', [BookController::class, 'delete'])->middleware('api.auth.gate:' . Permission::PRODUCT_DELETE['id']);
     Route::post('/', [BookController::class, 'create'])->middleware('api.auth.gate:' . Permission::PRODUCT_CREATE['id']);
     Route::put('/', [BookController::class, 'update'])->middleware('api.auth.gate:' . Permission::PRODUCT_UPDATE['id']);
@@ -52,8 +53,8 @@ Route::group(['prefix' => 'comments', 'middleware' => ['auth:sanctum']], functio
     Route::get('/{order_id}/{book_id}/{user_id}/find_rating', [CommentController::class, 'findComment'])->middleware('api.auth.gate:' . Permission::COMMENT_READ['id']);
 });
 
+Route::get('/categories', [CategoryController::class, 'search']);
 Route::group(['prefix' => 'categories', 'middleware' => ['auth:sanctum']], function () {
-    Route::get('/', [CategoryController::class, 'search']);
     Route::post('/', [CategoryController::class, 'create'])->middleware('api.auth.gate:' . Permission::CATEGORY_CREATE['id']);
     Route::get('/{id}', [CategoryController::class, 'getCategory'])->middleware('api.auth.gate:' . Permission::CATEGORY_READ['id']);
     Route::delete('/{id}', [CategoryController::class, 'delete'])->middleware('api.auth.gate:' . Permission::CATEGORY_DELETE['id']);
