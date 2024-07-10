@@ -45,7 +45,7 @@ Route::group(['prefix' => 'books', 'middleware' => ['auth:sanctum']], function (
 });
 
 Route::get('/comments', [CommentController::class, 'search']);
-Route::get('/{id}/rating', [CommentController::class, 'rating']);
+Route::get('/comments/{id}/rating', [CommentController::class, 'rating']);
 Route::group(['prefix' => 'comments', 'middleware' => ['auth:sanctum']], function () {
     Route::delete('/{id}', [CommentController::class, 'delete'])->middleware('api.auth.gate:' . Permission::COMMENT_DELETE['id']);
     Route::post('/', [CommentController::class, 'create'])->middleware('api.auth.gate:' . Permission::COMMENT_CREATE['id']);
