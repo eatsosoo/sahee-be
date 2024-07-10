@@ -44,12 +44,12 @@ Route::group(['prefix' => 'books', 'middleware' => ['auth:sanctum']], function (
     Route::put('/', [BookController::class, 'update'])->middleware('api.auth.gate:' . Permission::PRODUCT_UPDATE['id']);
 });
 
+Route::get('/comments', [CommentController::class, 'search']);
+Route::get('/{id}/rating', [CommentController::class, 'rating']);
 Route::group(['prefix' => 'comments', 'middleware' => ['auth:sanctum']], function () {
-    Route::get('/', [CommentController::class, 'search'])->middleware('api.auth.gate:' . Permission::COMMENT_LIST['id']);
     Route::delete('/{id}', [CommentController::class, 'delete'])->middleware('api.auth.gate:' . Permission::COMMENT_DELETE['id']);
     Route::post('/', [CommentController::class, 'create'])->middleware('api.auth.gate:' . Permission::COMMENT_CREATE['id']);
     Route::put('/', [CommentController::class, 'update'])->middleware('api.auth.gate:' . Permission::COMMENT_UPDATE['id']);
-    Route::get('/{id}/rating', [CommentController::class, 'rating'])->middleware('api.auth.gate:' . Permission::COMMENT_READ['id']);
     Route::get('/{order_id}/{book_id}/{user_id}/find_rating', [CommentController::class, 'findComment'])->middleware('api.auth.gate:' . Permission::COMMENT_READ['id']);
 });
 
