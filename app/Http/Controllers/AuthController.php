@@ -32,7 +32,7 @@ class AuthController extends Controller
         return response()->json([
             'result' => true, // add this line
             'data' => [
-                'message' => 'Successfully logged in',
+                'message' => 'Đăng nhập thành công!',
                 'access_token' => $token,
                 'token_type' => 'Bearer',
             ]
