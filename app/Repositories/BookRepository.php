@@ -61,4 +61,9 @@ class BookRepository extends BaseRepository
         $book->stock -= $quantity;
         $book->save();
     }
+
+    public function findBookByIds($bookIds)
+    {
+        return Book::whereIn('id', $bookIds)->get();
+    }
 }

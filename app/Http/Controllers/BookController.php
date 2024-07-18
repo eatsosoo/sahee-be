@@ -148,4 +148,17 @@ class BookController extends Controller
         return ApiResponse::v1()->send($maxStock, 'max_stock');
         
     }
+
+    /**
+     * get top 6 books
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function getTopBooks(Request $request)   
+    {
+        $topBooks = $this->bookService->getBestSellingBooks();
+        $result = BaseDataResource::generateResources($topBooks, BookResource::class);
+        return ApiResponse::v1()->send($result, 'top_books');
+    }
 }

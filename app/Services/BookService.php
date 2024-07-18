@@ -10,6 +10,7 @@ use App\Exceptions\DB\RecordIsNotFoundException;
 use App\Helpers\Common\CommonHelper;
 use App\Models\Book;
 use App\Repositories\BookRepository;
+use App\Repositories\OrderItemRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -18,11 +19,14 @@ class BookService extends BaseService
 {
     /** @var BookRepository */
     protected BookRepository $bookRepo;
+    /** @var OrderItemRepository */
+    protected OrderItemRepository $orderItemRepo;
 
-    public function __construct(BookRepository $bookRepo)
+    public function __construct(BookRepository $bookRepo, OrderItemRepository $orderItemRepo)
     {
         $this->bookRepo = $bookRepo;
-    }
+        $this->orderItemRepo = $orderItemRepo;
+    }   
 
     /**
      * get books
@@ -184,6 +188,31 @@ class BookService extends BaseService
         } catch (Exception $e) {
             throw new ActionFailException(
                 'getBook: ' . $bookId,
+                null,
+                $e
+            );
+        }
+    }
+
+    /**
+     * Get the top 6 best-selling books
+     *
+     * @return Collection
+     */
+    public function getBestSellingBooks()
+    {
+        try {
+            $bestSellingBookIds = $this->orderItemRepo->findTopSixBookIds();
+
+            if (empty($bestSellingBookIds)) {
+                return collect(); // Return an empty collection if there are no IDs
+            }
+
+            $bestSellingBooks = $this->bookRepo->findBookByIds($bestSellingBookIds);
+            return $bestSellingBooks;
+        } catch (Exception $e) {
+            throw new ActionFailException(
+                'getBestSellingBooks: ' . json_encode($bestSellingBookIds),
                 null,
                 $e
             );
