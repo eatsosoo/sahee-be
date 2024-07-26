@@ -23,10 +23,20 @@ class UpdateAuthorRequest extends FormRequest
     {
         $rules = [
             'id' => ['required'],
-            'name' => ['required'],
+            'name' => ['required', 'unique:authors,name,' . $this->id],
+            'nationality' => ['required'],
+            'dob' => ['required','date'],
+            'pseudonym' => ['required'],
         ];
 
         return $rules;
+    }
+
+    public function messages()
+    {
+        return [
+            'name.unique' => 'Tên tác giả đã tồn tại trong hệ thống. Vui lòng chọn tên khác.',
+        ];
     }
 
     /**
@@ -40,6 +50,9 @@ class UpdateAuthorRequest extends FormRequest
         $input = $this->only(
             'id',
             'name',
+            'nationality',
+            'dob',
+            'pseudonym'
         );
 
         $this->replace($input);
